@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "white sofa",
+    "price": 200,
+    "image": "white sofa.png"
+  },
+  {
+    "id": 2,
+    "name": "yellow chair",
+    "price": 200,
+    "image": "yellow chair .png"
+  },
+  {
+    "id": 3,
+    "name": "leather arm chair",
+    "price": 200,
+    "image": "leather arm chair.png"
+  },
+  {
+    "id": 4,
+    "name": "brown chair",
+    "price": 200,
+    "image": "brown chair .png"
+  },
+  {
+    "id": 5,
+    "name": "green chair",
+    "price": 200,
+    "image": "green chair .png"
+  }
+]
