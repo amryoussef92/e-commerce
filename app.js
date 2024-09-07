@@ -66,6 +66,7 @@ const addToCart = (product_id) => {
   }
   addCartToHTML();
 };
+
 listCartHTML.addEventListener("click", (event) => {
   if (event.target.classList.contains("plus")) {
     let product_id = event.target.closest(".item").dataset.id;
@@ -143,9 +144,9 @@ const addCartToHTML = () => {
           <div class="name">"${info.name}"</div>
           <div class="totalPric">"$${info.price * cart.quantity}"</div>
           <div class="quantity">
-            <span class="minus"><</span>
+            <span class="minus">-</span>
             <span>${cart.quantity}</span>
-            <span class="plus">></span>
+            <span class="plus">+</span>
           </div>
           `;
       listCartHTML.appendChild(newcart);
