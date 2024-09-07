@@ -7,9 +7,9 @@
   },
   {
     "id": 2,
-    "name": "yellow chair",
+    "name": "green chair",
     "price": 200,
-    "image": "yellow chair .png"
+    "image": "green chair .png"
   },
   {
     "id": 3,
@@ -25,8 +25,8 @@
   },
   {
     "id": 5,
-    "name": "green chair",
+    "name": "yellow chair",
     "price": 200,
-    "image": "green chair .png"
+    "image": "yellow chair .png"
   }
 ]

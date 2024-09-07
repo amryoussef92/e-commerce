@@ -4,6 +4,7 @@ let body = document.querySelector("body");
 let listProductHTML = document.querySelector(".listproduct");
 let listCartHTML = document.querySelector(".listCart");
 let iconCartSpan = document.querySelector(".icon-cart span");
+let checkOutButton = document.querySelector(".checkOut");
 
 let listproducts = [];
 let carts = [];
@@ -65,6 +66,59 @@ const addToCart = (product_id) => {
   }
   addCartToHTML();
 };
+listCartHTML.addEventListener("click", (event) => {
+  if (event.target.classList.contains("plus")) {
+    let product_id = event.target.closest(".item").dataset.id;
+    let positionThisProductInCart = carts.findIndex(
+      (cart) => cart.product_id == product_id
+    );
+    carts[positionThisProductInCart].quantity++;
+    addCartToHTML();
+  } else if (event.target.classList.contains("minus")) {
+    let product_id = event.target.closest(".item").dataset.id;
+    let positionThisProductInCart = carts.findIndex(
+      (cart) => cart.product_id == product_id
+    );
+    if (carts[positionThisProductInCart].quantity > 1) {
+      carts[positionThisProductInCart].quantity--;
+    } else {
+      carts.splice(positionThisProductInCart, 1); // Remove item if quantity is 1
+    }
+    addCartToHTML();
+  }
+});
+
+checkOutButton.addEventListener("click", () => {
+  if (carts.length > 0) {
+    let totalQuantity = 0;
+    let totalPrice = 0;
+
+    // Calculate total quantity and total price
+    carts.forEach((cart) => {
+      const product = listproducts.find((p) => p.id == cart.product_id);
+      totalQuantity += cart.quantity;
+      totalPrice += product.price * cart.quantity;
+    });
+
+    // Format the price to USD
+    let formattedTotalPrice = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(totalPrice);
+
+    // Show the message
+    alert(
+      `Checkout complete! You have purchased ${totalQuantity} items for a total of ${formattedTotalPrice}.`
+    );
+
+    // Optionally, clear the cart after checkout
+    carts = [];
+    addCartToHTML(); // Clear the cart in the UI
+    iconCartSpan.innerHTML = 0; // Reset cart count to zero
+  } else {
+    alert("Your cart is empty!");
+  }
+});
 
 const addCartToHTML = () => {
   listCartHTML.innerHTML = "";
@@ -108,140 +162,3 @@ const initApp = () => {
     });
 };
 initApp();
-// const product = [
-//   {
-//     id: 0,
-//     image:
-//       "vecteezy_fabric-armchair-soft-cushion-with-metal-leg-3d-rendering_11794199.png",
-//     title: "armchair",
-//     price: 200,
-//   },
-//   {
-//     id: 1,
-//     image: "yellow chair .png",
-//     title: "yellow chair",
-//     price: 150,
-//   },
-//   {
-//     id: 2,
-//     image:
-//       "vecteezy_minimalistic-sofa-clipart-modern-couch-design-minimalist_24523225.png",
-//     title: "blue two seats",
-//     price: 300,
-//   },
-//   {
-//     id: 3,
-//     image:
-//       "vecteezy_modern-and-stylish-white-sofa-home-interior-mockup-interior_24787891.png",
-//     title: "blue three seats",
-//     price: 400,
-//   },
-// ];
-// const categories = [
-//   ...new setInterval(
-//     product.map((item) => {
-//       return item;
-//     })
-//   ),
-// ];
-// let i = 0;
-// document.getElementById("listproduct").innerHTML = categories
-//   .map((item) => {
-//     var { image, title, price } = item;
-//     return (
-//       `<div class='box'>
-//             <div class='img-box'>
-//                 <img class='images' src= ${image}></img>
-//             </div>
-//             <div class='bottom'>
-//                 <p>${title}</p>
-//                 <h2>$ ${price}.00</h2>` +
-//       "<button onclick='addtocart(" +
-//       i++ +
-//       ")'>Add to cart</button> " +
-//       `</div>
-//         </div>`
-//     );
-//   })
-//   .join("");
-// const product = [
-//   {
-//     id: 0,
-//     image:
-//       "vecteezy_fabric-armchair-soft-cushion-with-metal-leg-3d-rendering_11794199.png",
-//     title: "arm chair",
-//     price: 200,
-//   },
-//   {
-//     id: 1,
-//     image: "brown chair .png",
-//     title: "brown chair",
-//     price: 150,
-//   },
-//   {
-//     id: 2,
-//     image:
-//       "vecteezy_minimalistic-sofa-clipart-modern-couch-design-minimalist_24523225.png",
-//     title: "blue two seats",
-//     price: 300,
-//   },
-//   {
-//     id: 3,
-//     image:
-//       "vecteezy_modern-and-stylish-white-sofa-home-interior-mockup-interior_24787891.png",
-//     title: "blue three seats",
-//     price: 400,
-//   },
-// ];
-
-// const listproduct = document.querySelector(".listproductall");
-
-// product.forEach((item, index) => {
-//   const { image, title, price } = item;
-//   const box = document.createElement("div");
-//   box.classList.add("box");
-//   box.innerHTML = `
-//       <div class='img-box'>
-//           <img class='images' src='${image}' alt='${title}'></img>
-//       </div>
-//       <div class='bottom'>
-//           <p>${title}</p>
-//           <h2>$ ${price}.00</h2>
-//           <button onclick='addtocart(${index})'>Add to cart</button>
-//       </div>`;
-//   listproduct.appendChild(box);
-// });
-
-// function addToCart(index) {
-//   const { image, title, price } = item; // Get the selected product from the product array
-//   const cartItem = document.createElement("div"); // Create a new div for the cart item
-//   cartItem.classList.add("cartItem"); // Add the 'item' class to the cart item
-
-//   // HTML content for the cart item
-//   cartItem.innerHTML = `
-//         <div class="image">
-//             <img src="${image}" alt="${title}">
-//         </div>
-//         <div class="name">${title}</div>
-//         <div class="totalPrice">$${price}.00</div>
-//         <div class="quantity">
-//             <span class="minus">-</span>
-//             <span>1</span>
-//             <span class="plus">+</span>
-//         </div>`;
-
-//   const listCart = document.querySelector(".listCartall"); // Get the listCart element
-//   listCart.appendChild(cartItem); // Append the cart item to the listCart
-// }
-
-// // Adding event listeners to dynamically created buttons
-// function addListenersToButtons() {
-//   const addToCartButtons = document.querySelectorAll(".addtocart");
-//   addToCartButtons.forEach((button, index) => {
-//     button.addEventListener("click", () => {
-//       addToCart(index);
-//     });
-//   });
-// }
-
-// addListenersToButtons();
